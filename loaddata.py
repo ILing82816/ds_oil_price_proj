@@ -126,10 +126,10 @@ df=df.fillna(method='pad')
 print(df)
 
 #split to train data set and test data set
-train = df.loc[: math.floor(len(df) * 0.8), :]
-test = df.loc[math.floor(len(df) * 0.8)+1: , :]
-train.to_csv(os.path.join('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data', 'train.csv'), index=False)
-test.to_csv(os.path.join('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data', 'test.csv'), index=False)
+#train = df.loc[: math.floor(len(df) * 0.8), :]
+#test = df.loc[math.floor(len(df) * 0.8)+1: , :]
+df.to_csv(os.path.join('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data', 'data_clean.csv'), index=False)
+#test.to_csv(os.path.join('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data', 'test.csv'), index=False)
 
 
 
