@@ -73,10 +73,10 @@ wti1.rename(columns={'Price':'wti_price',"Vol.":"wti_volumn"},
 wti_oil_price= pd.concat([wti1,wti])
 
 
-Oil_Contract = pd.read_excel(open('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/RCLC1d.xls', 'rb'),
-              sheet_name='Data 1', skiprows=2, usecols = ["Date", "Cushing, OK Crude Oil Future Contract 1 (Dollars per Barrel)"],parse_dates =["Date"], index_col ="Date") 
-Oil_Contract.rename(columns={'Cushing, OK Crude Oil Future Contract 1 (Dollars per Barrel)':'Oil_Contract'}, 
-                 inplace=True) 
+#Oil_Contract = pd.read_excel(open('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/RCLC1d.xls', 'rb'),
+#              sheet_name='Data 1', skiprows=2, usecols = ["Date", "Cushing, OK Crude Oil Future Contract 1 (Dollars per Barrel)"],parse_dates =["Date"], index_col ="Date") 
+#Oil_Contract.rename(columns={'Cushing, OK Crude Oil Future Contract 1 (Dollars per Barrel)':'Oil_Contract'}, 
+#                 inplace=True) 
 
 
 
@@ -109,8 +109,8 @@ Gasoline_price = Gasoline_price.resample('D').ffill()
 
 
 #combine and clean data
-df= pd.concat([Dow_Jones,S_P,bond_1year,bond_5year,bond_10year,bond_30year,monetary_base,cpi,fed_fund,brent_oil_price,wti_oil_price,Oil_Contract,saudi_production,us_production,fuel_price,Gasoline_price], axis=1)
-df=df.loc['1995-05-01':'2020-05-01']
+df= pd.concat([Dow_Jones,S_P,bond_1year,bond_5year,bond_10year,bond_30year,monetary_base,cpi,fed_fund,brent_oil_price,wti_oil_price,saudi_production,us_production,fuel_price,Gasoline_price], axis=1)
+df=df.loc['1995-05-01':'2020-04-30']
 df.index.to_series().dt.dayofweek
 df = df.reset_index()
 df = df[df['index'].dt.weekday < 5]
