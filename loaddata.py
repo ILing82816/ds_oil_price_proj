@@ -6,7 +6,7 @@ Created on Mon Jun  1 13:41:37 2020
 """
 import pandas as pd
 import os
-import math
+
 #Stock
 Dow_Jones = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/^DJI.csv',usecols = ["Date", "Close","Volume"],parse_dates =["Date"], index_col ="Date")
 Dow_Jones.rename(columns={'Close':'dj_price','Volume':'dj_vloumn'}, 
@@ -110,7 +110,8 @@ Gasoline_price = Gasoline_price.resample('D').ffill()
 
 #combine and clean data
 df= pd.concat([Dow_Jones,S_P,bond_1year,bond_5year,bond_10year,bond_30year,monetary_base,cpi,fed_fund,brent_oil_price,wti_oil_price,saudi_production,us_production,fuel_price,Gasoline_price], axis=1)
-df=df.loc['1995-05-01':'2020-04-30']
+df=df.loc['1995-05-01':"2020-04-30"]
+
 df.index.to_series().dt.dayofweek
 df = df.reset_index()
 df = df[df['index'].dt.weekday < 5]
