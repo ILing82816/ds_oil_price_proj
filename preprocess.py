@@ -38,8 +38,9 @@ def difference(dataset, interval=1):
  
 # invert differenced value
 def inverse_difference(history, yhat, interval=1):
-	return yhat + history[-interval]
-
+	return yhat + history[-interval:]
+#def inverse_difference(last_ob, value):
+#	return value + last_ob
 
 # transform data to be supervised learning
 def create_dataset(dataset, look_back=1):
@@ -49,3 +50,14 @@ def create_dataset(dataset, look_back=1):
 		dataX.append(a)
 		dataY.append(dataset[i + look_back, 0])
 	return numpy.array(dataX), numpy.array(dataY)
+
+'''
+def create_inout_sequences(input_data, tw):
+    inout_seq = []
+    L = len(input_data)
+    for i in range(L-tw):
+        train_seq = input_data[i:i+tw]
+        train_label = input_data[i+tw:i+tw+1]
+        inout_seq.append((train_seq ,train_label))
+    return inout_seq
+'''

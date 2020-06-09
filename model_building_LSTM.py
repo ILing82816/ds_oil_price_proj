@@ -13,9 +13,10 @@ model_dir = path_prefix # model directory for checkpoint model
 # 通過 torch.cuda.is_available() 的回傳值進行判斷是否有使用 GPU 的環境，如果有的話 device 就設為 "cuda"，沒有的話就設為 "cpu"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # 定義batch 大小、要訓練幾個 epoch、learning rate 的值
-batch_size = 5
-epoch =150
+batch_size = 1
+epoch =30
 lr = 0.001
+
 
 
 
@@ -32,6 +33,7 @@ wti_oil_price= pd.concat([wti1,wti])
 wti_oil_price["wti_volumn"] = wti_oil_price["wti_volumn"].apply(lambda x : None if x =='-'  
                                          else (x))
 wti_oil_price_monthly = wti_oil_price.resample('M').mean()
+
 
 
 
@@ -72,7 +74,10 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 fig, ax = plt.subplots(2, figsize=(10,6))
 ax[0] = plot_acf(wti_oil_price_monthly['wti_price'], ax=ax[0])
 ax[1] = plot_pacf(wti_oil_price_monthly['wti_price'], lags=20, ax=ax[1])
+plt.legend()
+plt.show()
 ##Based ACF and PACF, there is AR(3). 
+
 
 
 
@@ -83,44 +88,66 @@ from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(wti_oil_price_diff.values.reshape(-1,1))
 
-        
 ##train_test split
 import math
 train = dataset[: math.floor(len(dataset) * 0.8), :]
 val = dataset[math.floor(len(dataset) * 0.8): , :]
-'''
+
 ##transform data to be supervised learning
 look_back = 1
 trainX, trainY = p.create_dataset(train, look_back)
 valX, valY = p.create_dataset(val, look_back)
-
 ##To dataset for Dataloader
 import pricedata as d
 train_dataset = d.PriceDataset(X=trainX, y=trainY)
 val_dataset = d.PriceDataset(X=valX, y=valY)
 
 ## 把 data 轉成 batch of tensors
+
 from torch.utils.data import DataLoader
 train_loader = DataLoader(dataset = train_dataset,
                                             batch_size = batch_size,
                                             shuffle = True)
-
 val_loader = DataLoader(dataset = val_dataset,
                                             batch_size = batch_size,
                                             shuffle = False)
 
 
-# Set up model and tran model
+
+
+
+# Set up model and train model
 print("Start training...")
 import modelsetup as msp
 import train as tr
-model = msp.LSTM_Net(input_size=1, hidden_layer_size=100, output_size=1, dropout=0.5)
+model = msp.LSTM_Net(input_size=1, hidden_layer_size=100, output_size=1, n_layers=1)
 model = model.to(device) # device為 "cuda"，model 使用 GPU 來訓練（餵進去的 inputs 也需要是 cuda tensor）
-
 tr.training(batch_size, epoch, lr, model_dir, train_loader, val_loader, model, device)
-'''
 
 
+
+
+#Prediction
+print('\nload model ...')
+import predict as pre
+model = torch.load(os.path.join(model_dir, 'oil_price.model'))
+outputs = pre.testing(batch_size, val_loader, model, device)
+##invert scaling
+import numpy as np
+outputs = scaler.inverse_transform(np.array(outputs).reshape(-1, 1))
+print(outputs)
+##invert differencing
+raw_data = wti_oil_price_monthly['wti_price'].reset_index()
+#actual_prediction = [p.inverse_difference(raw_data['wti_price'][i], outputs[i,0]) for i in range(len(outputs))]
+actual_prediction = p.inverse_difference(raw_data['wti_price'], outputs[:,0], 61) 
+
+#yhat = inverse_difference(raw_values, yhat, len(test_scaled)+1-i)
+## Draw
+x = np.arange(254, 315, 1)
+plt.plot(raw_data["wti_price"],color="red",Label='wti_price_monthly')
+plt.plot(x,actual_prediction, color="blue",Label='wti_price_prediction')
+plt.legend()
+plt.show()
 
 
 
