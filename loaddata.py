@@ -112,7 +112,7 @@ Gasoline_price = Gasoline_price.resample('D').ffill()
 df= pd.concat([Dow_Jones,S_P,bond_1year,bond_5year,bond_10year,bond_30year,monetary_base,cpi,fed_fund,brent_oil_price,wti_oil_price,saudi_production,us_production,fuel_price,Gasoline_price], axis=1)
 df=df.loc['1995-05-01':"2020-04-30"]
 
-df.index.to_series().dt.dayofweek
+#df.index.to_series().dt.dayofweek
 df = df.reset_index()
 df = df[df['index'].dt.weekday < 5]
 df["brent_volumn"] = df["brent_volumn"].apply(lambda x : None if x =='-'  

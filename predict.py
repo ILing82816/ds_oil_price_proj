@@ -11,7 +11,7 @@ def testing(batch_size, test_loader, model, device):
     ret_output = []
     with torch.no_grad():
         test_h = model.init_hidden(batch_size)
-        for i, (inputs, labels) in enumerate(test_loader):
+        for i, inputs in enumerate(test_loader):
             test_h = tuple([each.data for each in test_h])
             inputs = inputs.to(device, dtype=torch.float) # device 為 "cuda"，將 inputs 轉成 torch.cuda.LongTensor
             outputs = model(inputs, test_h)
