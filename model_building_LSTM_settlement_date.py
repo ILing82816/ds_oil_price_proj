@@ -61,7 +61,7 @@ plt.legend()
 plt.savefig('wti_price_settlement_date.png')
 plt.show()
 
-'''
+
 ## ADF/KPSS
 print("Check ADF/KPSS ...")
 import preprocess as p
@@ -95,7 +95,7 @@ plt.legend()
 plt.savefig('ACF_PACF_settlement_date.png')
 plt.show()
 ##Based ACF and PACF, there is AR(2). 
-'''
+
 
 
 
