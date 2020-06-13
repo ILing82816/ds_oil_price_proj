@@ -71,7 +71,13 @@ events = pd.DataFrame({
   'lower_window': 0,
   'upper_window': 60,
 })
-holidays = pd.concat((election, events))
+crisis = pd.DataFrame({
+  'holiday': 'crisis',
+  'ds': pd.to_datetime(['2008-05-20']),#'2000-03-10',"2003-03-20", ,'2010-09-15'
+  'lower_window': -120,
+  'upper_window': 360,
+})
+holidays = pd.concat((election, events, crisis))
 
 
 model_imporvement = Prophet(holidays=holidays, weekly_seasonality=False).add_seasonality(name='monthly', period=30.5, fourier_order=5)
