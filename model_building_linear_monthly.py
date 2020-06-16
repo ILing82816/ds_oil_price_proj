@@ -61,14 +61,6 @@ y_val = Y[math.floor(len(Y) * 0.8): , :]
 
 
 #Multiple linear regression
-"""
-## statsmodels
-import statsmodels.api as sm
-
-X_sm = sm.add_constant(X) 
-model = sm.OLS(Y, X_sm)
-print(model.fit().summary())
-"""
 ## sklearn Linear Regression
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_score

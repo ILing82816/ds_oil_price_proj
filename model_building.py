@@ -43,36 +43,6 @@ y_val = Y[math.floor(len(Y) * 0.8): , :]
 
 
 #Multiple linear regression
-"""
-## Gradient descent
-dim = 19*5+1
-w = np.zeros([dim, 1])
-x_train = np.concatenate((np.ones([math.floor(6518*0.8), 1]), x_train), axis = 1).astype(float)
-learning_rate = 5
-iter_time = 1000
-sig = np.zeros([dim, 1])
-eps = 0.0000000001
-T=[]
-Loss=[]
-for t in range(iter_time):
-    loss = np.sqrt(np.sum(np.power(np.dot(x_train, w) - y_train, 2))/math.floor(6518*0.8))
-    if(t%100==0):
-        print(str(t) + ":" + str(loss))
-        T.append(t)
-        Loss.append(loss)
-    gradient = 2*np.dot(x_train.transpose(), np.dot(x_train,w)-y_train)
-    sig += gradient ** 2
-    w = w - learning_rate * gradient / np.sqrt(sig+eps)
-
-import matplotlib.pyplot as plt
-plt.plot(T,Loss,color="red", label='learning rate=5')
-plt.legend()
-plt.show()
-
-x_val = np.concatenate((np.ones([math.ceil(6518*0.2), 1]), x_val), axis = 1).astype(float)
-loss = np.sqrt(np.sum(np.power(np.dot(x_val, w) - y_val, 2))/math.ceil(6518*0.2))
-print(loss)
-"""
 ## statsmodels
 import statsmodels.api as sm
 

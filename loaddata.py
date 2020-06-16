@@ -124,7 +124,6 @@ df['wti_volumn']= df['wti_volumn'].astype('float64')
 df['brent_volumn']= df['brent_volumn']*1000
 df['wti_volumn']= df['wti_volumn']*1000
 df=df.fillna(method='pad')
-print(df)
 
 #split to train data set and test data set
 #train = df.loc[: math.floor(len(df) * 0.8), :]
