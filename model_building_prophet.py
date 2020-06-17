@@ -153,6 +153,12 @@ cpi["cpi_diff"] = cpi_diff['adjust']
 cpi = cpi.set_index('Label')
 cpi = cpi.resample('D').ffill()
 
+saudi_production = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/saudi-arabia-crude-oil-production-chart.csv',skiprows=15,parse_dates =["date"], index_col ="date")
+saudi_production.rename(columns={' value':'saudi_production'}, 
+                 inplace=True)
+saudi_production = saudi_production.resample('D').ffill()
+
+
 fed_fund = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/fed-funds-rate-historical-chart.csv',skiprows=15,parse_dates =["date"], index_col ="date")
 fed_fund.rename(columns={' value':'fed_fund'}, 
                  inplace=True)
@@ -169,7 +175,7 @@ wti1.rename(columns={'Price':'wti_price',"Vol.":"wti_volumn"},
                  inplace=True)
 wti_oil_price= pd.concat([wti1,wti])
 
-data_with_regressors= pd.concat([wti_oil_price["wti_price"],monetary_base["monetary_base_diff"],cpi["cpi_diff"],fed_fund], axis=1)
+data_with_regressors= pd.concat([wti_oil_price["wti_price"],monetary_base["monetary_base_diff"],cpi["cpi_diff"],fed_fund,saudi_production], axis=1)
 data_with_regressors=data_with_regressors.loc['1995-05-01':"2020-04-30"]
 data_with_regressors = data_with_regressors.reset_index()
 data_with_regressors = data_with_regressors[data_with_regressors['index'].dt.weekday < 5]
@@ -215,7 +221,7 @@ model_imporvement2.add_seasonality(name='monthly', period=30.5, fourier_order=5)
 model_imporvement2.add_regressor('monetary_base_diff')
 model_imporvement2.add_regressor('cpi_diff')
 model_imporvement2.add_regressor('fed_fund')
-#model_imporvement2.add_regressor('bond_5year')
+model_imporvement2.add_regressor('saudi_production')
 #model_imporvement2.add_regressor('fuel_price', mode='multiplicative')
 #model_imporvement2.add_regressor('saudi_production', mode='multiplicative')
 #weekly_seasonality=False,  .add_seasonality(name='monthly', period=30.5, fourier_order=5),  changepoint_range=0.9, changepoint_prior_scale=0.5, .add_country_holidays(country_name='US')
@@ -229,8 +235,8 @@ future_imporvement2["cpi_diff"] = data_with_regressors["cpi_diff"]
 future_imporvement2["cpi_diff"]= future_imporvement2["cpi_diff"].fillna(method='pad')
 future_imporvement2["fed_fund"] = data_with_regressors["fed_fund"]
 future_imporvement2["fed_fund"] = future_imporvement2["fed_fund"].fillna(method='pad')
-#future_imporvement2["bond_5year"] = data_with_regressors["bond_5year"]
-#future_imporvement2["bond_5year"] = future_imporvement2["bond_5year"].fillna(method='pad')
+future_imporvement2["saudi_production"] = data_with_regressors["saudi_production"]
+future_imporvement2["saudi_production"] = future_imporvement2["saudi_production"].fillna(method='pad')
 #future_imporvement2["saudi_production"] = data_with_regressors["saudi_production"]
 #future_imporvement2["saudi_production"] = future_imporvement2["saudi_production"].fillna(method='pad')
 #future_imporvement['on_season'] = future_imporvement['ds'].apply(is_nfl_season)
