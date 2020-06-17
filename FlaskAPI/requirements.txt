@@ -1,0 +1,36 @@
+arviz @ file:///home/conda/feedstock_root/build_artifacts/arviz_1590675208987/work
+certifi==2020.4.5.2
+cftime @ file:///D:/bld/cftime_1589387759223/work
+click==7.1.2
+convertdate @ file:///home/conda/feedstock_root/build_artifacts/convertdate_1589287890831/work
+cycler==0.10.0
+Cython @ file:///D:/bld/cython_1591799706519/work
+ephem==3.7.7.1
+fbprophet==0.6
+Flask==1.1.2
+holidays @ file:///home/conda/feedstock_root/build_artifacts/holidays_1589367317537/work
+itsdangerous==1.1.0
+Jinja2==2.11.2
+kiwisolver==1.2.0
+korean-lunar-calendar @ file:///home/conda/feedstock_root/build_artifacts/korean_lunar_calendar_1589354365811/work
+LunarCalendar==0.0.9
+MarkupSafe==1.1.1
+matplotlib==3.2.1
+mkl-fft==1.1.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+netCDF4 @ file:///D:/bld/netcdf4_1588329301603/work
+numpy==1.18.1
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1589925210001/work
+pandas==1.0.4
+PyMeeus @ file:///home/conda/feedstock_root/build_artifacts/pymeeus_1589222711601/work
+pyparsing==2.4.7
+pystan==2.19.1.1
+python-dateutil==2.8.1
+pytz==2020.1
+scipy==1.4.1
+six==1.15.0
+tornado==6.0.4
+Werkzeug==1.0.1
+wincertstore==0.2
+xarray==0.15.1

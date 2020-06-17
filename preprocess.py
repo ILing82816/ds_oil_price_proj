@@ -4,6 +4,7 @@ Created on Mon Jun  8 10:48:31 2020
 
 @author: USER
 """
+
 import pandas as pd
 from pandas import Series
 from statsmodels.tsa.stattools import adfuller
