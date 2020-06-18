@@ -10,12 +10,12 @@
 * Built a client facing API using flask
 
 ## Code and Resources Used
-**Python Version:** 3.7.
-**Packages:** pandas, numpy, sklearn, statsmodels, torce, fbprophet, matplotlib, seaborn, flask, json, pickle.
-**For Web Framework Requirements:** `pip install -r requirements.txt`.
-**Model Building Github:** https://nbviewer.jupyter.org/github/nicolasfauchereau/Auckland_Cycling/blob/master/notebooks/Auckland_cycling_and_weather.ipynb.
+**Python Version:** 3.7  
+**Packages:** pandas, numpy, sklearn, statsmodels, torce, fbprophet, matplotlib, seaborn, flask, json, pickle  
+**For Web Framework Requirements:** `pip install -r requirements.txt`  
+**Model Building Github:** https://nbviewer.jupyter.org/github/nicolasfauchereau/Auckland_Cycling/blob/master/notebooks/Auckland_cycling_and_weather.ipynb  
 **Model Building Article:** https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3
-**Flask Productionization:** https://github.com/abaranovskis-redsamurai/automation-repo/blob/master/forecast/ironsteel_forecast_prophet.ipynb.
+**Flask Productionization:** https://github.com/abaranovskis-redsamurai/automation-repo/blob/master/forecast/ironsteel_forecast_prophet.ipynb  
 
 ## Data Collecting
 With each date, we got the following:
