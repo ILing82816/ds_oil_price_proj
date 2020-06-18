@@ -14,7 +14,7 @@
 **Packages:** pandas, numpy, sklearn, statsmodels, torce, fbprophet, matplotlib, seaborn, flask, json, pickle  
 **For Web Framework Requirements:** `pip install -r requirements.txt`  
 **Model Building Github:** https://nbviewer.jupyter.org/github/nicolasfauchereau/Auckland_Cycling/blob/master/notebooks/Auckland_cycling_and_weather.ipynb  
-**Model Building Article:** https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3
+**Model Building Article:** https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3  
 **Flask Productionization:** https://github.com/abaranovskis-redsamurai/automation-repo/blob/master/forecast/ironsteel_forecast_prophet.ipynb  
 
 ## Data Collecting
@@ -35,7 +35,12 @@ After collecting the data, I needed to clean it up so that it was usable for our
 
 ## EDA
 I looked at the distributions and autocorrelation of the data, the correlation with the various variables. Below are a few highlights from the figures.
+Distribution of WTI Price:
 ![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution")
+Autocorrelation of WTI Price: There are AR(3)
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/ACF_PACF.png "ACF")
+Correlation with other features:
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/Features_corr.png "correlation")
 
 ## Model Building
 
