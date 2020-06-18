@@ -1,6 +1,8 @@
 # Data Science Crude Oil WTI Price Estimator: Project Overview
-* Created a tool that estimates data science crude oil wti price (MAPE ~27\%) to help investors realize oil price in the future when they invest oil-related stocks.
-* Collected 25 years economic indicators, Saudi Arabia production of oil and wti price from:
+* Created a tool that estimates data science crude oil wti price (MAE ~/$15) to help investors realize oil price in the future when they invest oil-related stocks.
+* Collected 25 years economic indicators, price and production of oil, stock, bond from:
+  * https://www.eia.gov/
+  * https://finance.yahoo.com/
   * https://www.macrotrends.net/
   * https://beta.bls.gov/
   * https://fred.stlouisfed.org/
@@ -19,11 +21,18 @@
 
 ## Data Collecting
 With each date, we got the following:
-* WTI Oil Price
+* WTI Crude Oil Price
+* Brent Crude Oil Price
+* Regular Gasoline price
+* Diesel Fuel price
+* Saudi Arabia Oil Production
+* US Crude Oil Production
+* S&P 500
+* Dow Jones Industrial Average
+* 1/5/10/30 year Treasury rate
 * Monetary Base
 * CPI
 * Federal Funds Rate
-* Saudi Arabia production of oil
 
 ## Data Cleaning
 After collecting the data, I needed to clean it up so that it was usable for our model. I made the following changes and created the following variables:
@@ -36,14 +45,25 @@ After collecting the data, I needed to clean it up so that it was usable for our
 ## EDA
 I looked at the distributions and autocorrelation of the data, the correlation with the various variables. Below are a few highlights from the figures.
 Distribution of WTI Price:
-![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution")
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution")  
 Autocorrelation of WTI Price: There are AR(3)
-![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/ACF_PACF.png "ACF")
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/ACF_PACF.png "ACF")  
 Correlation with other features:
-![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/Features_corr.png "correlation")
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/Features_corr.png "correlation")  
 
 ## Model Building
+First, I normalized the data. I also split the data into train and tests sets with a test size of 20%.  
+I tried three different models and evaluated them using Mean Absolute Error. I chose MAE because it is relatively easy to interpret and outliers aren’t particularly bad in for this type of model.  
+I tried three different models:  
+* **Linear Regression** - Baseline for the model
+* **Long Short-term Memory (LSTM)** - Because the history of oil price would affect current oil price, I thought a memorable model like long short-term memory would be effective.
+* **Prophet** - Again, with the time series data, I thought that this would be a good fit. Also, prophet can predict not only one period but more.   
 
 ## Model performance
+Depend on the trend of oil price in the future, investors decide the strategies of investment. Although the Linear Regression model far outperformed the other approaches on the test and validation sets, the Prophet model is more practical.
+* **Prophet:** MAE = 14.56 
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution") 
+* **Linear Regression:** MAE = 0.82  
+* **Long Short-term Memory (LSTM):** MAE = 1.08  
 
 ## Productionization
