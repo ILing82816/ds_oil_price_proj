@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route("/forecast", methods=['POST'])
 def predict():
     data_with_regressors = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/FlaskAPI/data_with_regressor.csv')
-    with open('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/forecast_model.pckl', 'rb') as fin:
+    with open('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/pre_prophet_model.pckl', 'rb') as fin:
         m2 = pickle.load(fin)
     
     horizon = int(request.json['horizon'])
