@@ -61,9 +61,12 @@ I tried three different models:
 
 ## Model performance
 Depend on the trend of oil price in the future, investors decide the strategies of investment. Although the Linear Regression model far outperformed the other approaches on the test and validation sets, the Prophet model is more practical.
-* **Prophet:** MAE = 14.56 
-![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution") 
+* **Prophet:** MAE = 14.56   
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/prediction_prophet.png "prophet")   
 * **Linear Regression:** MAE = 0.82  
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/prediction_linear.png "linear")  
 * **Long Short-term Memory (LSTM):** MAE = 1.08  
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/prediction_LSTM.png "LSTM")
 
 ## Productionization
+In this step, I built a flask API endpoint that was hosted on a local webserver by following along with the tutorial in the reference section above. The API endpoint takes in a request with the day of prediction and returns a list of estimated WTI Price.
