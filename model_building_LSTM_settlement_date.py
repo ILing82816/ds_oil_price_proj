@@ -95,7 +95,7 @@ plt.legend()
 plt.savefig('ACF_PACF_settlement_date.png')
 plt.show()
 ##Based ACF and PACF, there is AR(2). 
-
+ 
 
 
 

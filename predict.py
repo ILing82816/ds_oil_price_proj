@@ -24,3 +24,7 @@ def testing(batch_size, test_loader, model, device):
 def mean_absolute_percentage_error(y_true, y_pred):
     y_true, y_pred = np.array(y_true), np.array(y_pred)
     return np.mean(np.abs((y_true - y_pred)/ y_true)) * 100
+
+def mean_absolute_error(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.mean(np.abs((y_true - y_pred)))

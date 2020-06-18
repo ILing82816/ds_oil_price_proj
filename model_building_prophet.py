@@ -7,6 +7,7 @@ Created on Thu Jun 11 08:52:06 2020
 # Set up some path and parameters.
 ## path
 import os
+'''
 path_prefix = 'D:/USA 2020 summer/Machine Learning/ds_oil_price_proj'
 
 
@@ -92,7 +93,7 @@ import predict as p
 from fbprophet.diagnostics import cross_validation
 imporvement_cv = cross_validation(model_imporvement, initial='730 days', period='180 days', horizon = '365 days')
 mape_imporvement = p.mean_absolute_percentage_error(imporvement_cv.y, imporvement_cv.yhat)
-
+'''
 
 
 
@@ -220,6 +221,7 @@ import predict as p
 from fbprophet.diagnostics import cross_validation
 imporvement2_cv = cross_validation(model_imporvement2, initial='730 days', period='180 days', horizon = '365 days')
 mape_imporvement2 = p.mean_absolute_percentage_error(imporvement2_cv.y, imporvement2_cv.yhat)
+mae_imporvement2 = p.mean_absolute_error(imporvement2_cv.y, imporvement2_cv.yhat)
 
 
 
