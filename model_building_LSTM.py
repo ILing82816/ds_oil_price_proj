@@ -14,8 +14,8 @@ import torch
 from torch.utils.data import DataLoader
 import modelsetup as msp
 import train as tr
-
-
+import predict as pre
+import numpy as np
 # Set up some path and parameters.
 ## path
 path_prefix = 'D:/USA 2020 summer/Machine Learning/ds_oil_price_proj'
@@ -78,7 +78,6 @@ tr.training(batch_size, epoch, lr, model_dir, train_loader, val_loader, model, d
 
 #Prediction
 print('\nload model ...')
-import predict as pre
 val = dataset[math.floor(len(dataset) * 0.8): , :]
 val_dataset = d.PriceDataset(X=valX, y=None)
 val_loader = DataLoader(dataset = val_dataset,
@@ -87,10 +86,9 @@ val_loader = DataLoader(dataset = val_dataset,
 model = torch.load(os.path.join(model_dir, 'pre_LSTM.model'))
 val_outputs = pre.testing(batch_size, val_loader, model, device)
 ##invert scaling
-import numpy as np
 val_pred = scaler.inverse_transform(np.array(val_outputs).reshape(-1, 1))
 valY = scaler.inverse_transform(np.array(valY).reshape(-1, 1))
-print(mean_absolute_error(valY, val_pred))
+print(pre.mean_absolute_error(valY, val_pred))
 
 
 

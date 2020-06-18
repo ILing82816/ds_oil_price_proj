@@ -7,22 +7,26 @@ Created on Thu Jun 11 08:52:06 2020
 # Set up some path and parameters.
 ## path
 import os
-'''
+import pandas as pd
+from fbprophet import Prophet
+from fbprophet.plot import add_changepoints_to_plot
+import predict as p
+from fbprophet.diagnostics import cross_validation
+from pandas import Series
+#path
 path_prefix = 'D:/USA 2020 summer/Machine Learning/ds_oil_price_proj'
 
 
 
-
+'''
 #Baseline Model
 ##prepare data
 print("loading data ...")
-import pandas as pd
 wti = pd.read_csv(os.path.join(path_prefix, 'data/data_clean.csv'),usecols = ["index", "wti_price"],parse_dates =["index"])
 wti=wti.rename(columns={'index':'ds', "wti_price": "y"})
 
 ##Train
-from fbprophet import Prophet
-from fbprophet.plot import add_changepoints_to_plot
+print("Start training...")
 model_baseline = Prophet()
 model_baseline.fit(wti)
 
@@ -34,10 +38,8 @@ a_baseline = add_changepoints_to_plot(fig1_baseline.gca(), model_baseline, forec
 fig2_baseline = model_baseline.plot_components(forecast_baseline)
 
 ##Evaluation
-import predict as p
-from fbprophet.diagnostics import cross_validation
 baseline_cv = cross_validation(model_baseline, initial='730 days', period='180 days', horizon = '365 days')
-mape_baseline = p.mean_absolute_percentage_error(baseline_cv.y, baseline_cv.yhat)
+mape_baseline = p.mean_absolute_error(baseline_cv.y, baseline_cv.yhat)
 
 
 
@@ -73,8 +75,7 @@ crisis = pd.DataFrame({
 holidays = pd.concat((election, events, crisis))
 
 ##Train
-from fbprophet import Prophet
-from fbprophet.plot import add_changepoints_to_plot
+print("Start training...")
 model_imporvement = Prophet(holidays=holidays, weekly_seasonality=False, yearly_seasonality=20).add_seasonality(name='monthly', period=30.5, fourier_order=5)
 #weekly_seasonality=False,  .add_seasonality(name='monthly', period=30.5, fourier_order=5),  changepoint_range=0.9, changepoint_prior_scale=0.5, .add_country_holidays(country_name='US')
 
@@ -89,10 +90,8 @@ a_imporvement = add_changepoints_to_plot(fig1_imporvement.gca(), model_imporveme
 fig2_imporvement = model_imporvement.plot_components(forecast_imporvement)
 
 ##Evaluation
-import predict as p
-from fbprophet.diagnostics import cross_validation
 imporvement_cv = cross_validation(model_imporvement, initial='730 days', period='180 days', horizon = '365 days')
-mape_imporvement = p.mean_absolute_percentage_error(imporvement_cv.y, imporvement_cv.yhat)
+mape_imporvement = p.mean_absolute_error(imporvement_cv.y, imporvement_cv.yhat)
 '''
 
 
@@ -101,8 +100,7 @@ mape_imporvement = p.mean_absolute_percentage_error(imporvement_cv.y, imporvemen
 #imporvement Model--Additional regressors
 ##prepare data
 print("loading data ...")
-import pandas as pd
-from pandas import Series
+
 def difference(dataset, interval=1):
 	diff = list()
 	for i in range(interval, len(dataset)):
@@ -110,61 +108,31 @@ def difference(dataset, interval=1):
 		diff.append(value)
 	return Series(diff)
 
-monetary_base = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/BOGMBASEW.csv',parse_dates =["DATE"], index_col ="DATE")
-monetary_base.rename(columns={'BOGMBASEW':'monetary_base'}, 
-                 inplace=True)
-monetary_base.index = monetary_base.index+ pd.DateOffset(-2)
-monetary_base = monetary_base.reset_index()
-monetary_base_diff = difference(monetary_base['monetary_base'], interval=1)
+
+df = pd.read_csv(os.path.join(path_prefix, 'data/data_clean.csv'),usecols = ["index","monetary_base", "cpi","fed_fund", 'saudi_production', 'wti_price'])
+
+
+monetary_base_diff = difference(df['monetary_base'], interval=1)
 monetary_base_diff = monetary_base_diff.to_frame()
 monetary_base_diff =monetary_base_diff.append({0:0}, ignore_index=True)
 monetary_base_diff['adjust'] = 0
 for i in range(len(monetary_base_diff)):
     monetary_base_diff['adjust'].loc[i+1] = monetary_base_diff[0].loc[i]
 
-monetary_base["monetary_base_diff"] = monetary_base_diff['adjust']
-monetary_base = monetary_base.set_index('DATE')    
-monetary_base = monetary_base.resample('D').ffill()
+df["monetary_base_diff"] = monetary_base_diff['adjust']
 
-cpi = pd.read_csv("D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/CPI.csv", usecols = ["Label", "Value"],parse_dates =["Label"], index_col ="Label")
-cpi.rename(columns={'Value':'cpi'}, 
-                 inplace=True)
-cpi = cpi.reset_index()
-cpi_diff = difference(cpi['cpi'], interval=1)
+cpi_diff = difference(df['cpi'], interval=1)
 cpi_diff = cpi_diff.to_frame()
 cpi_diff =cpi_diff.append({0:0}, ignore_index=True)
 cpi_diff['adjust'] = 0
 for i in range(len(cpi_diff)):
     cpi_diff['adjust'].loc[i+1] = cpi_diff[0].loc[i]
 
-cpi["cpi_diff"] = cpi_diff['adjust']
-cpi = cpi.set_index('Label')
-cpi = cpi.resample('D').ffill()
+df["cpi_diff"] = cpi_diff['adjust']
 
-saudi_production = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/saudi-arabia-crude-oil-production-chart.csv',skiprows=15,parse_dates =["date"], index_col ="date")
-saudi_production.rename(columns={' value':'saudi_production'}, 
-                 inplace=True)
-saudi_production = saudi_production.resample('D').ffill()
-
-fed_fund = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/fed-funds-rate-historical-chart.csv',skiprows=15,parse_dates =["date"], index_col ="date")
-fed_fund.rename(columns={' value':'fed_fund'}, 
-                 inplace=True)
-
-wti = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/Crude Oil WTI Futures Historical Data.csv',usecols = ["Date", "Price", "Vol."],parse_dates =["Date"], index_col ="Date")
-wti.rename(columns={'Price':'wti_price',"Vol.":"wti_volumn"}, 
-                 inplace=True)
-wti1 = pd.read_csv('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data/Crude Oil WTI Futures Historical Data (1).csv',usecols = ["Date", "Price", "Vol."],parse_dates =["Date"], index_col ="Date")
-wti1.rename(columns={'Price':'wti_price',"Vol.":"wti_volumn"}, 
-                 inplace=True)
-wti_oil_price= pd.concat([wti1,wti])
-
-data_with_regressors= pd.concat([wti_oil_price["wti_price"],monetary_base["monetary_base_diff"],cpi["cpi_diff"],fed_fund,saudi_production], axis=1)
-data_with_regressors=data_with_regressors.loc['1995-05-01':"2020-04-30"]
-data_with_regressors = data_with_regressors.reset_index()
-data_with_regressors = data_with_regressors[data_with_regressors['index'].dt.weekday < 5]
-data_with_regressors=data_with_regressors.fillna(method='pad')
+data_with_regressors= df.drop(['monetary_base', 'cpi'], axis=1)
 data_with_regressors=data_with_regressors.rename(columns={'index':'ds', "wti_price": "y"})
-data_with_regressors.to_csv(os.path.join('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/FlaskApI', 'data_with_regressor.csv'), index=False)
+
 
 ## set up season
 election = pd.DataFrame({
@@ -190,8 +158,7 @@ crisis = pd.DataFrame({
 holidays = pd.concat((election, events, crisis))
 
 ##Train
-from fbprophet import Prophet
-from fbprophet.plot import add_changepoints_to_plot
+print("Start training...")
 model_imporvement2 = Prophet(holidays=holidays, weekly_seasonality=False, yearly_seasonality=20)
 model_imporvement2.add_seasonality(name='monthly', period=30.5, fourier_order=5)
 model_imporvement2.add_regressor('monetary_base_diff')
@@ -217,10 +184,8 @@ a_imporvement2 = add_changepoints_to_plot(fig1_imporvement2.gca(), model_imporve
 fig2_imporvement2 = model_imporvement2.plot_components(forecast_imporvement2)
 
 ##Evaluation
-import predict as p
-from fbprophet.diagnostics import cross_validation
 imporvement2_cv = cross_validation(model_imporvement2, initial='730 days', period='180 days', horizon = '365 days')
-mape_imporvement2 = p.mean_absolute_percentage_error(imporvement2_cv.y, imporvement2_cv.yhat)
+#mape_imporvement2 = p.mean_absolute_percentage_error(imporvement2_cv.y, imporvement2_cv.yhat)
 mae_imporvement2 = p.mean_absolute_error(imporvement2_cv.y, imporvement2_cv.yhat)
 
 
@@ -228,8 +193,10 @@ mae_imporvement2 = p.mean_absolute_error(imporvement2_cv.y, imporvement2_cv.yhat
 
 # flask_API--store the best model (model_improvement2)
 import pickle
-with open('D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/FlaskApI/forecast_model.pckl', 'wb') as fout:
+with open(os.path.join(path_prefix, 'FlaskApI/pre_prophet_model.pckl'), 'wb') as fout:
     pickle.dump(model_imporvement2, fout)
+
+data_with_regressors.to_csv(os.path.join(path_prefix, 'FlaskApI/data_with_regressor.csv'), index=False)
 
 
 
