@@ -68,7 +68,7 @@ def training(batch_size, n_epoch, lr, model_dir, train, valid, model, device):
             if total_loss/v_batch < lower_loss:
                 # 如果 validation 的結果優於之前所有的結果，就把當下的模型存下來以備之後做預測時使用
                 #torch.save(model, "{}/val_acc_{:.3f}.model".format(model_dir,total_acc/v_batch*100))
-                torch.save(model, "{}/oil_price.model".format(model_dir))
+                torch.save(model, "{}/pre_LSTM.model".format(model_dir))
                 print('saving model with loss {:.3f}'.format(total_loss/v_batch))
         print('-----------------------------------------------')
 
