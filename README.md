@@ -35,7 +35,7 @@ After collecting the data, I needed to clean it up so that it was usable for our
 
 ## EDA
 I looked at the distributions and autocorrelation of the data, the correlation with the various variables. Below are a few highlights from the figures.
-
+![alt text](https://github.com/ILing82816/ds_oil_price_proj/blob/master/Figure/distribution_wti_price.png "distribution")
 
 ## Model Building
 
