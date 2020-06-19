@@ -1,5 +1,5 @@
 # Data Science Crude Oil WTI Price Estimator: Project Overview
-* Created a tool that estimates data science crude oil wti price (MAE ~/$15) to help investors realize oil price in the future when they invest oil-related stocks.
+* Created a tool that estimates data science crude oil wti price (MAE ~$15) to help investors realize oil price in the future when they invest oil-related stocks.
 * Collected 25 years economic indicators, price and production of oil, stock, bond from:
   * https://www.eia.gov/
   * https://finance.yahoo.com/
