@@ -13,7 +13,7 @@
 
 ## Code and Resources Used
 **Python Version:** 3.7  
-**Packages:** pandas, numpy, sklearn, statsmodels, torce, fbprophet, matplotlib, seaborn, flask, json, pickle  
+**Packages:** pandas, numpy, sklearn, statsmodels, torch, fbprophet, matplotlib, seaborn, flask, json, pickle  
 **For Web Framework Requirements:** `pip install -r requirements.txt`  
 **Model Building Github:** https://nbviewer.jupyter.org/github/nicolasfauchereau/Auckland_Cycling/blob/master/notebooks/Auckland_cycling_and_weather.ipynb  
 **Model Building Article:** https://towardsdatascience.com/implementing-facebook-prophet-efficiently-c241305405a3  
