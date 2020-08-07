@@ -16,6 +16,7 @@ import modelsetup as msp
 import train as tr
 import predict as pre
 import numpy as np
+import matplotlib.pyplot as plt
 # Set up some path and parameters.
 ## path
 path_prefix = 'D:/USA 2020 summer/Machine Learning/ds_oil_price_proj'
@@ -102,7 +103,7 @@ plt.show()
 ## Zoom in
 plt.title("Ture vs Prediction")
 plt.plot(df["wti_price"][math.floor(len(dataset) * 0.8):math.floor(len(dataset) * 0.8)+1303],color="red",Label='wti_price')
-plt.plot(x, val_outputs1, color="blue",Label='wti_price_prediction(MAE: 1.08)')
+plt.plot(x, val_pred, color="blue",Label='wti_price_prediction(MAE: 1.08)')
 plt.legend()
 plt.show()
 
