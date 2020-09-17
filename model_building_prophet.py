@@ -197,6 +197,7 @@ with open(os.path.join(path_prefix, 'FlaskApI/pre_prophet_model.pckl'), 'wb') as
     pickle.dump(model_imporvement2, fout)
 
 data_with_regressors.to_csv(os.path.join(path_prefix, 'FlaskApI/data_with_regressor.csv'), index=False)
+forecast_imporvement2.to_csv(os.path.join(path_prefix, 'Optimization/Forcast_202008.csv'), index=False)
 
 
 

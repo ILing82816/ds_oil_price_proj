@@ -44,7 +44,7 @@ saudi_production = saudi_production.resample('D').ffill()
 
 #combine and clean data
 df= pd.concat([monetary_base,cpi,fed_fund,wti_oil_price,saudi_production], axis=1)
-df=df.loc['1995-05-01':"2020-06-30"]
+df=df.loc['1995-05-01':"2020-08-30"]
 
 df = df.reset_index()
 df = df[df['index'].dt.weekday < 5]
