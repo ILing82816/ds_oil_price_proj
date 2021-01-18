@@ -10,7 +10,7 @@ import os
 path_prefix = 'D:/USA 2020 summer/Machine Learning/ds_oil_price_proj/data'
 
 
-
+'''
 #Stock
 Dow_Jones = pd.read_csv(os.path.join(path_prefix, '^DJI.csv'),usecols = ["Date", "Close","Volume"],parse_dates =["Date"], index_col ="Date")
 Dow_Jones.rename(columns={'Close':'dj_price','Volume':'dj_vloumn'}, 
@@ -40,7 +40,7 @@ bond_30year = pd.read_csv(os.path.join(path_prefix, '30-year-treasury-bond-rate-
 bond_30year.rename(columns={' value':'bond_30year'}, 
                  inplace=True)
 
-
+'''
 
 #Economic Indicators
 monetary_base = pd.read_csv(os.path.join(path_prefix, 'BOGMBASEW.csv'),parse_dates =["DATE"], index_col ="DATE")
@@ -62,6 +62,7 @@ fed_fund.rename(columns={' value':'fed_fund'},
 
 
 #Crude Oil Price
+'''
 brent_oil = pd.read_csv(os.path.join(path_prefix, 'Brent Oil Futures Historical Data.csv'),usecols = ["Date", "Price", "Vol."],parse_dates =["Date"], index_col ="Date")
 brent_oil.rename(columns={'Price':'brent_price',"Vol.":"brent_volumn"}, 
                  inplace=True)
@@ -70,7 +71,7 @@ brent_oil1.rename(columns={'Price':'brent_price',"Vol.":"brent_volumn"},
                  inplace=True)
 brent_oil_price= pd.concat([brent_oil1,brent_oil])
 
-
+'''
 wti = pd.read_csv(os.path.join(path_prefix, 'Crude Oil WTI Futures Historical Data.csv'),usecols = ["Date", "Price", "Vol."],parse_dates =["Date"], index_col ="Date")
 wti.rename(columns={'Price':'wti_price',"Vol.":"wti_volumn"}, 
                  inplace=True)
@@ -88,7 +89,7 @@ saudi_production = pd.read_csv(os.path.join(path_prefix, 'saudi-arabia-crude-oil
 saudi_production.rename(columns={' value':'saudi_production'}, 
                  inplace=True)
 saudi_production = saudi_production.resample('D').ffill()
-
+'''
 us_production = pd.read_csv(os.path.join(path_prefix, 'us-crude-oil-production-historical-chart.csv'),skiprows=15,parse_dates =["date"], index_col ="date")
 us_production.rename(columns={' value':'us_production'}, 
                  inplace=True)
@@ -109,23 +110,24 @@ Gasoline_price = pd.read_excel(open(os.path.join(path_prefix, 'pswrgvwall.xls'),
 Gasoline_price.rename(columns={'Weekly U.S. Regular Conventional Retail Gasoline Prices  (Dollars per Gallon)':'Gasoline_price'}, 
                  inplace=True) 
 Gasoline_price = Gasoline_price.resample('D').ffill() 
-
+'''
 
 
 
 #combine and clean data
-df= pd.concat([Dow_Jones,S_P,bond_1year,bond_5year,bond_10year,bond_30year,monetary_base,cpi,fed_fund,brent_oil_price,wti_oil_price,saudi_production,us_production,fuel_price,Gasoline_price], axis=1)
-df=df.loc['1995-05-01':"2020-04-30"]
+df= pd.concat([monetary_base,cpi,fed_fund,wti_oil_price,saudi_production], axis=1)
+df=df.loc['1995-05-01':"2020-09-30"]
 
 df = df.reset_index()
 df = df[df['index'].dt.weekday < 5]
-df["brent_volumn"] = df["brent_volumn"].apply(lambda x : None if x =='-'  
-                                         else (x))
+
+#df["brent_volumn"] = df["brent_volumn"].apply(lambda x : None if x =='-'  
+#                                         else (x))
 df["wti_volumn"] = df["wti_volumn"].apply(lambda x : None if x =='-'  
                                          else (x))
-df['brent_volumn']= df['brent_volumn'].astype('float64')
+#df['brent_volumn']= df['brent_volumn'].astype('float64')
 df['wti_volumn']= df['wti_volumn'].astype('float64')
-df['brent_volumn']= df['brent_volumn']*1000
+#df['brent_volumn']= df['brent_volumn']*1000
 df['wti_volumn']= df['wti_volumn']*1000
 df=df.fillna(method='pad')
 
