@@ -20,7 +20,7 @@ mkl-fft==1.1.0
 mkl-random==1.1.1
 mkl-service==2.3.0
 netCDF4 @ file:///D:/bld/netcdf4_1588329301603/work
-numpy==1.18.1
+numpy==1.22.0
 packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1589925210001/work
 pandas==1.0.4
 PyMeeus @ file:///home/conda/feedstock_root/build_artifacts/pymeeus_1589222711601/work
