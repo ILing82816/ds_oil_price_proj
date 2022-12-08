@@ -1,5 +1,5 @@
 arviz @ file:///home/conda/feedstock_root/build_artifacts/arviz_1590675208987/work
-certifi==2020.4.5.2
+certifi==2022.12.7
 cftime @ file:///D:/bld/cftime_1589387759223/work
 click==7.1.2
 convertdate @ file:///home/conda/feedstock_root/build_artifacts/convertdate_1589287890831/work
